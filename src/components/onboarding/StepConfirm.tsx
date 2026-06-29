@@ -48,8 +48,7 @@ export default function StepConfirm({ leadData, onConfirm }: Props) {
             id="business_name"
             value={form.business_name}
             onChange={(e) => setForm({ ...form, business_name: e.target.value })}
-            required
-            className="font-body"
+                        className="font-body"
           />
         </div>
 
@@ -61,8 +60,7 @@ export default function StepConfirm({ leadData, onConfirm }: Props) {
             id="suburb"
             value={form.suburb}
             onChange={(e) => setForm({ ...form, suburb: e.target.value })}
-            required
-            className="font-body"
+                        className="font-body"
           />
         </div>
 
@@ -76,8 +74,7 @@ export default function StepConfirm({ leadData, onConfirm }: Props) {
             value={form.services}
             onChange={(e) => setForm({ ...form, services: e.target.value })}
             placeholder="e.g. Interior Painting, Exterior Painting"
-            required
-            rows={3}
+                        rows={3}
             className="font-body w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 resize-none"
           />
         </div>
@@ -91,8 +88,7 @@ export default function StepConfirm({ leadData, onConfirm }: Props) {
             type="tel"
             value={form.contact_phone}
             onChange={(e) => setForm({ ...form, contact_phone: e.target.value })}
-            required
-            className="font-body"
+                        className="font-body"
           />
         </div>
 
@@ -105,8 +101,7 @@ export default function StepConfirm({ leadData, onConfirm }: Props) {
             type="email"
             value={form.contact_email}
             onChange={(e) => setForm({ ...form, contact_email: e.target.value })}
-            required
-            className="font-body"
+                        className="font-body"
           />
         </div>
 
