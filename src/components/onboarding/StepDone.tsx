@@ -8,7 +8,7 @@ export default function StepDone({ businessName }: Props) {
         You're all set!
       </h1>
       <p className="font-body text-muted-foreground text-sm max-w-xs mx-auto">
-        We've got everything we need for {businessName}. Jai will be in touch soon with your site.
+        We've got everything we need for {businessName}. Luke will be in touch soon with your site.
       </p>
     </div>
   );
