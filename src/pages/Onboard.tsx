@@ -27,12 +27,42 @@ export default function Onboard() {
 
   useEffect(() => {
     async function fetchLead() {
-      // Build lead_id: use explicit ?lead= param, or generate from business name
-      const nameParam = searchParams.get("name");
-      const leadIdParam = searchParams.get("lead");
-      const leadId = leadIdParam ?? (nameParam ? nameParam.toLowerCase().replace(/\s+/g, "-") : null);
+      let business_name = "";
+      let suburb = "";
+      let services: string[] = [];
+      let contact_phone = "";
+      let contact_email = "";
+      let leadId = "";
 
-      if (!leadId) {
+      // Try decoding a compact token first (?t=base64)
+      const token = searchParams.get("t");
+      if (token) {
+        try {
+          const decoded = JSON.parse(atob(token));
+          business_name = decoded.name ?? "";
+          suburb = decoded.suburb ?? "";
+          services = decoded.services ?? [];
+          contact_phone = decoded.phone ?? "";
+          contact_email = decoded.email ?? "";
+          leadId = decoded.id ?? business_name.toLowerCase().replace(/\s+/g, "-");
+        } catch {
+          setError("Invalid onboarding link. Please contact us.");
+          setLoading(false);
+          return;
+        }
+      } else {
+        // Fall back to plain params
+        const nameParam = searchParams.get("name");
+        const leadIdParam = searchParams.get("lead");
+        leadId = leadIdParam ?? (nameParam ? nameParam.toLowerCase().replace(/\s+/g, "-") : "");
+        business_name = nameParam ?? "";
+        suburb = searchParams.get("suburb") ?? "";
+        services = (searchParams.get("services") ?? "").split(",").map(s => s.trim()).filter(Boolean);
+        contact_phone = searchParams.get("phone") ?? "";
+        contact_email = searchParams.get("email") ?? "";
+      }
+
+      if (!leadId || !business_name) {
         setError("Invalid onboarding link. Please contact us.");
         setLoading(false);
         return;
@@ -57,19 +87,6 @@ export default function Onboard() {
         if (existing.image_urls?.length || existing.images_skipped) {
           setStep("done");
         }
-        setLoading(false);
-        return;
-      }
-
-      // Read all details from URL params
-      const business_name = searchParams.get("name") ?? "";
-      const suburb = searchParams.get("suburb") ?? "";
-      const services = (searchParams.get("services") ?? "").split(",").map(s => s.trim()).filter(Boolean);
-      const contact_phone = searchParams.get("phone") ?? "";
-      const contact_email = searchParams.get("email") ?? "";
-
-      if (!business_name) {
-        setError("Invalid onboarding link. Please contact us.");
         setLoading(false);
         return;
       }
