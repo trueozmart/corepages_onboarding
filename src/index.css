@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Core Pages Design System
+   Color Palette: Feather, Marine, Forest, Sleek Grey
+   Typography: DM Sans (headings), Source Sans 3 (body)
+*/
+
+@layer base {
+  :root {
+    /* Light background - soft white with hint of teal */
+    --background: 180 20% 97%;
+    --foreground: 174 98% 15%;
+
+    /* Card - clean white */
+    --card: 0 0% 100%;
+    --card-foreground: 174 98% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 174 98% 15%;
+
+    /* Forest Primary - #015249 */
+    --primary: 174 98% 15%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Marine Secondary - #57BC90 */
+    --secondary: 152 44% 54%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Sleek Grey Muted - #A5A5AF */
+    --muted: 240 4% 67%;
+    --muted-foreground: 240 4% 40%;
+
+    /* Marine Accent */
+    --accent: 152 44% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 180 15% 88%;
+    --input: 180 15% 88%;
+    --ring: 174 98% 15%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --feather: 187 50% 65%;
+    --feather-light: 187 50% 80%;
+    --marine: 152 44% 54%;
+    --marine-light: 152 40% 70%;
+    --marine-dark: 152 48% 44%;
+    --forest: 174 98% 15%;
+    --forest-light: 174 80% 25%;
+    --forest-dark: 174 98% 10%;
+    --sleek-grey: 240 4% 67%;
+    --sleek-grey-light: 240 4% 85%;
+    --sleek-grey-dark: 240 4% 50%;
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(180, 20%, 97%) 0%, hsl(187, 50%, 95%) 100%);
+    --gradient-forest: linear-gradient(135deg, hsl(174, 98%, 15%) 0%, hsl(174, 80%, 20%) 100%);
+    --gradient-marine: linear-gradient(135deg, hsl(152, 44%, 54%) 0%, hsl(152, 48%, 44%) 100%);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px -2px hsl(174 98% 15% / 0.08);
+    --shadow-md: 0 8px 24px -8px hsl(174 98% 15% / 0.12);
+    --shadow-lg: 0 16px 40px -12px hsl(174 98% 15% / 0.15);
+    --shadow-glow: 0 0 40px hsl(152 44% 54% / 0.25);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24;
+  }
+  
+  .container-narrow {
+    @apply max-w-5xl mx-auto;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-marine to-forest;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .link-underline {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-marine after:transition-all after:duration-300 hover:after:w-full;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
