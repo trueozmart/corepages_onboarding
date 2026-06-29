@@ -15,22 +15,10 @@ export type LeadData = {
   contact_email: string;
 };
 
-const MOCK_LEADS: Record<string, LeadData> = {
-  demo: {
-    lead_id: "demo",
-    business_name: "Smith Painting & Decorating",
-    suburb: "Manly, NSW",
-    services: ["Interior Painting", "Exterior Painting", "Colour Consultation"],
-    contact_phone: "0412 345 678",
-    contact_email: "dave@smithpainting.com.au",
-  },
-};
-
 type Step = "confirm" | "photos" | "done";
 
 export default function Onboard() {
   const [searchParams] = useSearchParams();
-  const leadId = searchParams.get("lead") ?? "demo";
 
   const [leadData, setLeadData] = useState<LeadData | null>(null);
   const [step, setStep] = useState<Step>("confirm");
@@ -39,6 +27,18 @@ export default function Onboard() {
 
   useEffect(() => {
     async function fetchLead() {
+      // Build lead_id: use explicit ?lead= param, or generate from business name
+      const nameParam = searchParams.get("name");
+      const leadIdParam = searchParams.get("lead");
+      const leadId = leadIdParam ?? (nameParam ? nameParam.toLowerCase().replace(/\s+/g, "-") : null);
+
+      if (!leadId) {
+        setError("Invalid onboarding link. Please contact us.");
+        setLoading(false);
+        return;
+      }
+
+      // Check if already submitted (resume flow)
       const { data: existing } = await supabase
         .from("onboarding_submissions")
         .select("*")
@@ -54,26 +54,32 @@ export default function Onboard() {
           contact_phone: existing.contact_phone,
           contact_email: existing.contact_email,
         });
-        if (existing.status === "pending" && (existing.image_urls?.length || existing.images_skipped)) {
+        if (existing.image_urls?.length || existing.images_skipped) {
           setStep("done");
         }
         setLoading(false);
         return;
       }
 
-      const mock = MOCK_LEADS[leadId];
-      if (mock) {
-        setLeadData(mock);
+      // Read all details from URL params
+      const business_name = searchParams.get("name") ?? "";
+      const suburb = searchParams.get("suburb") ?? "";
+      const services = (searchParams.get("services") ?? "").split(",").map(s => s.trim()).filter(Boolean);
+      const contact_phone = searchParams.get("phone") ?? "";
+      const contact_email = searchParams.get("email") ?? "";
+
+      if (!business_name) {
+        setError("Invalid onboarding link. Please contact us.");
         setLoading(false);
         return;
       }
 
-      setError("We couldn't find your onboarding link. Please check the link or contact us.");
+      setLeadData({ lead_id: leadId, business_name, suburb, services, contact_phone, contact_email });
       setLoading(false);
     }
 
     fetchLead();
-  }, [leadId]);
+  }, []);
 
   if (loading) {
     return (
