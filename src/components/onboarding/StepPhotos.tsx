@@ -34,7 +34,7 @@ export default function StepPhotos({ leadData, onComplete }: Props) {
 
   const handleFiles = useCallback(async (incoming: FileList | null) => {
     if (!incoming || incoming.length === 0) return;
-    const toUpload = Array.from(incoming).slice(0, 5 - files.length);
+    const toUpload = Array.from(incoming).slice(0, 20 - files.length);
     setUploading(true);
     const results = await Promise.all(toUpload.map(uploadFile));
     setFiles((prev) => [...prev, ...results.filter((r): r is UploadedFile => r !== null)]);
@@ -95,7 +95,7 @@ export default function StepPhotos({ leadData, onComplete }: Props) {
           {uploading ? "Uploading…" : "Tap to choose photos"}
         </p>
         <p className="font-body text-xs text-muted-foreground mt-1">
-          or drag and drop — up to 5 images
+          or drag and drop — up to 20 images
         </p>
         {uploading && (
           <div className="mt-3 flex justify-center">
