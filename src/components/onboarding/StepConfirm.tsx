@@ -71,13 +71,14 @@ export default function StepConfirm({ leadData, onConfirm }: Props) {
             Services offered
             <span className="text-muted-foreground font-normal ml-1">(comma separated)</span>
           </Label>
-          <Input
+          <textarea
             id="services"
             value={form.services}
             onChange={(e) => setForm({ ...form, services: e.target.value })}
             placeholder="e.g. Interior Painting, Exterior Painting"
             required
-            className="font-body"
+            rows={3}
+            className="font-body w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 resize-none"
           />
         </div>
 
